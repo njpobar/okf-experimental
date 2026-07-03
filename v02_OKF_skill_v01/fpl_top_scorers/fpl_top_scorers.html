@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>FPL Top 2 Scorers &mdash; 2025-26 FPL season</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+
+:root {
+  --surface-1: #fcfcfb;
+  --page-plane: #f9f9f7;
+  --text-primary: #0b0b0b;
+  --text-secondary: #52514e;
+  --text-muted: #898781;
+  --gridline: #e1e0d9;
+  --baseline: #c3c2b7;
+  --border: rgba(11,11,11,0.10);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface-1: #1a1a19;
+    --page-plane: #0d0d0d;
+    --text-primary: #ffffff;
+    --text-secondary: #c3c2b7;
+    --text-muted: #898781;
+    --gridline: #2c2c2a;
+    --baseline: #383835;
+    --border: rgba(255,255,255,0.10);
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--page-plane);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 32px 20px 64px;
+}
+header.page-head h1 {
+  font-size: 26px;
+  margin: 0 0 4px;
+}
+header.page-head p {
+  color: var(--text-secondary);
+  margin: 0 0 32px;
+  font-size: 14px;
+}
+.card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px 20px 8px;
+  margin-bottom: 20px;
+  --chart-color: var(--chart-color-light);
+}
+@media (prefers-color-scheme: dark) {
+  .card { --chart-color: var(--chart-color-dark); }
+}
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.rank {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+.who h2 { margin: 0; font-size: 19px; }
+.who .meta { margin: 2px 0 0; color: var(--text-secondary); font-size: 13px; }
+.stats { display: flex; gap: 20px; margin-left: auto; }
+.stat { text-align: right; }
+.stat-value { display: block; font-size: 18px; font-weight: 600; }
+.stat-label { display: block; font-size: 11px; color: var(--text-muted); }
+.chart-wrap { position: relative; }
+.chart-svg { display: block; overflow: visible; }
+.gridline { stroke: var(--gridline); stroke-width: 1; }
+.baseline { stroke: var(--baseline); stroke-width: 1; }
+.axis-label { fill: var(--text-muted); font-size: 10px; }
+.hit-target { cursor: crosshair; }
+.crosshair {
+  stroke: var(--baseline);
+  stroke-width: 1;
+  opacity: 0;
+  pointer-events: none;
+}
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 12px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+  opacity: 0;
+  transform: translate(-50%, -110%);
+  white-space: nowrap;
+  z-index: 5;
+}
+.tooltip .tt-value { font-weight: 700; font-size: 14px; }
+.tooltip .tt-meta { color: var(--text-secondary); }
+.table-toggle { margin: 8px 0 12px; }
+.table-toggle summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 6px 0;
+}
+table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 8px; }
+th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--gridline); }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+th { color: var(--text-muted); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; }
+footer { color: var(--text-muted); font-size: 12px; margin-top: 24px; }
+
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="page-head">
+    <h1>FPL Top 2 Scorers &mdash; 2025-26 FPL season</h1>
+    <p>Ranked by total points across the completed season. Each chart plots points scored in every game played, earliest to latest. Hover or focus a point for fixture detail.</p>
+  </header>
+  
+<section class="card" style="--chart-color-light: #2a78d6; --chart-color-dark: #3987e5;">
+  <div class="card-head">
+    <div class="rank">#1</div>
+    <div class="who">
+      <h2>Haaland</h2>
+      <p class="meta">Man City &middot; FWD</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="stat-value">239</span><span class="stat-label">season points</span></div>
+      <div class="stat"><span class="stat-value">35</span><span class="stat-label">games played</span></div>
+      <div class="stat"><span class="stat-value">6.8</span><span class="stat-label">points / game</span></div>
+    </div>
+  </div>
+  <div class="chart-wrap">
+    <svg class="chart-svg" data-chart="p430" viewBox="0 0 900 260"
+     width="100%" height="260" role="img"
+     aria-label="Points per game time series">
+  <line x1="44" y1="232.0" x2="884" y2="232.0" class="gridline" /><text x="36" y="236.0" class="axis-label" text-anchor="end">0</text><line x1="44" y1="178.0" x2="884" y2="178.0" class="gridline" /><text x="36" y="182.0" class="axis-label" text-anchor="end">5</text><line x1="44" y1="124.0" x2="884" y2="124.0" class="gridline" /><text x="36" y="128.0" class="axis-label" text-anchor="end">10</text><line x1="44" y1="70.0" x2="884" y2="70.0" class="gridline" /><text x="36" y="74.0" class="axis-label" text-anchor="end">15</text><line x1="44" y1="16.0" x2="884" y2="16.0" class="gridline" /><text x="36" y="20.0" class="axis-label" text-anchor="end">20</text>
+  <line x1="44" y1="232.0" x2="884" y2="232.0" class="baseline" />
+  <polygon points="44.0,91.6 66.7,210.4 89.4,134.8 112.1,91.6 134.8,134.8 157.5,59.2 180.2,145.6 202.9,91.6 225.6,210.4 248.3,91.6 271.0,188.8 293.7,210.4 316.4,210.4 339.1,80.8 361.8,210.4 384.5,91.6 407.2,59.2 429.9,210.4 452.6,210.4 475.4,210.4 498.1,167.2 520.8,210.4 543.5,221.2 566.2,178.0 588.9,113.2 611.6,178.0 634.3,167.2 657.0,232.0 679.7,210.4 702.4,210.4 725.1,210.4 747.8,167.2 770.5,156.4 793.2,156.4 815.9,113.2 838.6,232.0 861.3,134.8 884.0,232.0 884.0,232.0 44.0,232.0" fill="var(--chart-color)" opacity="0.10" />
+  <polyline points="44.0,91.6 66.7,210.4 89.4,134.8 112.1,91.6 134.8,134.8 157.5,59.2 180.2,145.6 202.9,91.6 225.6,210.4 248.3,91.6 271.0,188.8 293.7,210.4 316.4,210.4 339.1,80.8 361.8,210.4 384.5,91.6 407.2,59.2 429.9,210.4 452.6,210.4 475.4,210.4 498.1,167.2 520.8,210.4 543.5,221.2 566.2,178.0 588.9,113.2 611.6,178.0 634.3,167.2 657.0,232.0 679.7,210.4 702.4,210.4 725.1,210.4 747.8,167.2 770.5,156.4 793.2,156.4 815.9,113.2 838.6,232.0 861.3,134.8 884.0,232.0" fill="none" stroke="var(--chart-color)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+  <line class="crosshair" x1="0" y1="16" x2="0" y2="232.0" />
+  <circle cx="884.0" cy="232.0" r="4" fill="var(--chart-color)" stroke="var(--surface-1)" stroke-width="2" />
+  <text x="44.0" y="250" class="axis-label" text-anchor="middle">GW1</text><text x="134.8" y="250" class="axis-label" text-anchor="middle">GW5</text><text x="225.6" y="250" class="axis-label" text-anchor="middle">GW9</text><text x="316.4" y="250" class="axis-label" text-anchor="middle">GW13</text><text x="407.2" y="250" class="axis-label" text-anchor="middle">GW17</text><text x="498.1" y="250" class="axis-label" text-anchor="middle">GW21</text><text x="588.9" y="250" class="axis-label" text-anchor="middle">GW25</text><text x="679.7" y="250" class="axis-label" text-anchor="middle">GW29</text><text x="770.5" y="250" class="axis-label" text-anchor="middle">GW33</text><text x="861.3" y="250" class="axis-label" text-anchor="middle">GW37</text><text x="884.0" y="250" class="axis-label" text-anchor="middle">GW38</text>
+  <circle cx="44.0" cy="91.6" r="12" class="hit-target" data-idx="0" fill="transparent" /><circle cx="66.7" cy="210.4" r="12" class="hit-target" data-idx="1" fill="transparent" /><circle cx="89.4" cy="134.8" r="12" class="hit-target" data-idx="2" fill="transparent" /><circle cx="112.1" cy="91.6" r="12" class="hit-target" data-idx="3" fill="transparent" /><circle cx="134.8" cy="134.8" r="12" class="hit-target" data-idx="4" fill="transparent" /><circle cx="157.5" cy="59.2" r="12" class="hit-target" data-idx="5" fill="transparent" /><circle cx="180.2" cy="145.6" r="12" class="hit-target" data-idx="6" fill="transparent" /><circle cx="202.9" cy="91.6" r="12" class="hit-target" data-idx="7" fill="transparent" /><circle cx="225.6" cy="210.4" r="12" class="hit-target" data-idx="8" fill="transparent" /><circle cx="248.3" cy="91.6" r="12" class="hit-target" data-idx="9" fill="transparent" /><circle cx="271.0" cy="188.8" r="12" class="hit-target" data-idx="10" fill="transparent" /><circle cx="293.7" cy="210.4" r="12" class="hit-target" data-idx="11" fill="transparent" /><circle cx="316.4" cy="210.4" r="12" class="hit-target" data-idx="12" fill="transparent" /><circle cx="339.1" cy="80.8" r="12" class="hit-target" data-idx="13" fill="transparent" /><circle cx="361.8" cy="210.4" r="12" class="hit-target" data-idx="14" fill="transparent" /><circle cx="384.5" cy="91.6" r="12" class="hit-target" data-idx="15" fill="transparent" /><circle cx="407.2" cy="59.2" r="12" class="hit-target" data-idx="16" fill="transparent" /><circle cx="429.9" cy="210.4" r="12" class="hit-target" data-idx="17" fill="transparent" /><circle cx="452.6" cy="210.4" r="12" class="hit-target" data-idx="18" fill="transparent" /><circle cx="475.4" cy="210.4" r="12" class="hit-target" data-idx="19" fill="transparent" /><circle cx="498.1" cy="167.2" r="12" class="hit-target" data-idx="20" fill="transparent" /><circle cx="520.8" cy="210.4" r="12" class="hit-target" data-idx="21" fill="transparent" /><circle cx="543.5" cy="221.2" r="12" class="hit-target" data-idx="22" fill="transparent" /><circle cx="566.2" cy="178.0" r="12" class="hit-target" data-idx="23" fill="transparent" /><circle cx="588.9" cy="113.2" r="12" class="hit-target" data-idx="24" fill="transparent" /><circle cx="611.6" cy="178.0" r="12" class="hit-target" data-idx="25" fill="transparent" /><circle cx="634.3" cy="167.2" r="12" class="hit-target" data-idx="26" fill="transparent" /><circle cx="657.0" cy="232.0" r="12" class="hit-target" data-idx="27" fill="transparent" /><circle cx="679.7" cy="210.4" r="12" class="hit-target" data-idx="28" fill="transparent" /><circle cx="702.4" cy="210.4" r="12" class="hit-target" data-idx="29" fill="transparent" /><circle cx="725.1" cy="210.4" r="12" class="hit-target" data-idx="30" fill="transparent" /><circle cx="747.8" cy="167.2" r="12" class="hit-target" data-idx="31" fill="transparent" /><circle cx="770.5" cy="156.4" r="12" class="hit-target" data-idx="32" fill="transparent" /><circle cx="793.2" cy="156.4" r="12" class="hit-target" data-idx="33" fill="transparent" /><circle cx="815.9" cy="113.2" r="12" class="hit-target" data-idx="34" fill="transparent" /><circle cx="838.6" cy="232.0" r="12" class="hit-target" data-idx="35" fill="transparent" /><circle cx="861.3" cy="134.8" r="12" class="hit-target" data-idx="36" fill="transparent" /><circle cx="884.0" cy="232.0" r="12" class="hit-target" data-idx="37" fill="transparent" />
+</svg>
+    <div class="tooltip" data-tooltip-for="p430"></div>
+  </div>
+  <details class="table-toggle">
+    <summary>Show game-by-game data table</summary>
+    <table>
+      <thead><tr><th>Gameweek</th><th>Fixture</th><th>Date</th><th class="num">Points</th></tr></thead>
+      <tbody><tr><td>GW1</td><td>@ WOL</td><td>16 Aug</td><td class='num'>13</td></tr><tr><td>GW2</td><td>vs TOT</td><td>23 Aug</td><td class='num'>2</td></tr><tr><td>GW3</td><td>@ BHA</td><td>31 Aug</td><td class='num'>9</td></tr><tr><td>GW4</td><td>vs MUN</td><td>14 Sep</td><td class='num'>13</td></tr><tr><td>GW5</td><td>@ ARS</td><td>21 Sep</td><td class='num'>9</td></tr><tr><td>GW6</td><td>vs BUR</td><td>27 Sep</td><td class='num'>16</td></tr><tr><td>GW7</td><td>@ BRE</td><td>5 Oct</td><td class='num'>8</td></tr><tr><td>GW8</td><td>vs EVE</td><td>18 Oct</td><td class='num'>13</td></tr><tr><td>GW9</td><td>@ AVL</td><td>26 Oct</td><td class='num'>2</td></tr><tr><td>GW10</td><td>vs BOU</td><td>2 Nov</td><td class='num'>13</td></tr><tr><td>GW11</td><td>vs LIV</td><td>9 Nov</td><td class='num'>4</td></tr><tr><td>GW12</td><td>@ NEW</td><td>22 Nov</td><td class='num'>2</td></tr><tr><td>GW13</td><td>vs LEE</td><td>29 Nov</td><td class='num'>2</td></tr><tr><td>GW14</td><td>@ FUL</td><td>2 Dec</td><td class='num'>14</td></tr><tr><td>GW15</td><td>vs SUN</td><td>6 Dec</td><td class='num'>2</td></tr><tr><td>GW16</td><td>@ CRY</td><td>14 Dec</td><td class='num'>13</td></tr><tr><td>GW17</td><td>vs WHU</td><td>20 Dec</td><td class='num'>16</td></tr><tr><td>GW18</td><td>@ NFO</td><td>27 Dec</td><td class='num'>2</td></tr><tr><td>GW19</td><td>@ SUN</td><td>1 Jan</td><td class='num'>2</td></tr><tr><td>GW20</td><td>vs CHE</td><td>4 Jan</td><td class='num'>2</td></tr><tr><td>GW21</td><td>vs BHA</td><td>7 Jan</td><td class='num'>6</td></tr><tr><td>GW22</td><td>@ MUN</td><td>17 Jan</td><td class='num'>2</td></tr><tr><td>GW23</td><td>vs WOL</td><td>24 Jan</td><td class='num'>1</td></tr><tr><td>GW24</td><td>@ TOT</td><td>1 Feb</td><td class='num'>5</td></tr><tr><td>GW25</td><td>@ LIV</td><td>8 Feb</td><td class='num'>11</td></tr><tr><td>GW26</td><td>vs FUL</td><td>11 Feb</td><td class='num'>5</td></tr><tr><td>GW27</td><td>vs NEW</td><td>21 Feb</td><td class='num'>6</td></tr><tr><td>GW28</td><td>@ LEE</td><td>28 Feb</td><td class='num'>0</td></tr><tr><td>GW29</td><td>vs NFO</td><td>4 Mar</td><td class='num'>2</td></tr><tr><td>GW30</td><td>@ WHU</td><td>14 Mar</td><td class='num'>2</td></tr><tr><td>GW32</td><td>@ CHE</td><td>12 Apr</td><td class='num'>2</td></tr><tr><td>GW33</td><td>vs ARS</td><td>19 Apr</td><td class='num'>6</td></tr><tr><td>GW33</td><td>@ BUR</td><td>22 Apr</td><td class='num'>7</td></tr><tr><td>GW35</td><td>@ EVE</td><td>4 May</td><td class='num'>7</td></tr><tr><td>GW36</td><td>vs BRE</td><td>9 May</td><td class='num'>11</td></tr><tr><td>GW36</td><td>vs CRY</td><td>13 May</td><td class='num'>0</td></tr><tr><td>GW37</td><td>@ BOU</td><td>19 May</td><td class='num'>9</td></tr><tr><td>GW38</td><td>vs AVL</td><td>24 May</td><td class='num'>0</td></tr></tbody>
+    </table>
+  </details>
+  <script type="application/json" class="chart-data" data-chart="p430">[{"round": 1, "points": 13, "opponent": "WOL", "venue": "A", "date": "16 Aug", "minutes": 72}, {"round": 2, "points": 2, "opponent": "TOT", "venue": "H", "date": "23 Aug", "minutes": 90}, {"round": 3, "points": 9, "opponent": "BHA", "venue": "A", "date": "31 Aug", "minutes": 90}, {"round": 4, "points": 13, "opponent": "MUN", "venue": "H", "date": "14 Sep", "minutes": 86}, {"round": 5, "points": 9, "opponent": "ARS", "venue": "A", "date": "21 Sep", "minutes": 75}, {"round": 6, "points": 16, "opponent": "BUR", "venue": "H", "date": "27 Sep", "minutes": 90}, {"round": 7, "points": 8, "opponent": "BRE", "venue": "A", "date": "5 Oct", "minutes": 90}, {"round": 8, "points": 13, "opponent": "EVE", "venue": "H", "date": "18 Oct", "minutes": 90}, {"round": 9, "points": 2, "opponent": "AVL", "venue": "A", "date": "26 Oct", "minutes": 90}, {"round": 10, "points": 13, "opponent": "BOU", "venue": "H", "date": "2 Nov", "minutes": 81}, {"round": 11, "points": 4, "opponent": "LIV", "venue": "H", "date": "9 Nov", "minutes": 90}, {"round": 12, "points": 2, "opponent": "NEW", "venue": "A", "date": "22 Nov", "minutes": 90}, {"round": 13, "points": 2, "opponent": "LEE", "venue": "H", "date": "29 Nov", "minutes": 90}, {"round": 14, "points": 14, "opponent": "FUL", "venue": "A", "date": "2 Dec", "minutes": 90}, {"round": 15, "points": 2, "opponent": "SUN", "venue": "H", "date": "6 Dec", "minutes": 68}, {"round": 16, "points": 13, "opponent": "CRY", "venue": "A", "date": "14 Dec", "minutes": 90}, {"round": 17, "points": 16, "opponent": "WHU", "venue": "H", "date": "20 Dec", "minutes": 90}, {"round": 18, "points": 2, "opponent": "NFO", "venue": "A", "date": "27 Dec", "minutes": 90}, {"round": 19, "points": 2, "opponent": "SUN", "venue": "A", "date": "1 Jan", "minutes": 90}, {"round": 20, "points": 2, "opponent": "CHE", "venue": "H", "date": "4 Jan", "minutes": 90}, {"round": 21, "points": 6, "opponent": "BHA", "venue": "H", "date": "7 Jan", "minutes": 90}, {"round": 22, "points": 2, "opponent": "MUN", "venue": "A", "date": "17 Jan", "minutes": 79}, {"round": 23, "points": 1, "opponent": "WOL", "venue": "H", "date": "24 Jan", "minutes": 17}, {"round": 24, "points": 5, "opponent": "TOT", "venue": "A", "date": "1 Feb", "minutes": 90}, {"round": 25, "points": 11, "opponent": "LIV", "venue": "A", "date": "8 Feb", "minutes": 90}, {"round": 26, "points": 5, "opponent": "FUL", "venue": "H", "date": "11 Feb", "minutes": 45}, {"round": 27, "points": 6, "opponent": "NEW", "venue": "H", "date": "21 Feb", "minutes": 90}, {"round": 28, "points": 0, "opponent": "LEE", "venue": "A", "date": "28 Feb", "minutes": 0}, {"round": 29, "points": 2, "opponent": "NFO", "venue": "H", "date": "4 Mar", "minutes": 90}, {"round": 30, "points": 2, "opponent": "WHU", "venue": "A", "date": "14 Mar", "minutes": 90}, {"round": 32, "points": 2, "opponent": "CHE", "venue": "A", "date": "12 Apr", "minutes": 90}, {"round": 33, "points": 6, "opponent": "ARS", "venue": "H", "date": "19 Apr", "minutes": 90}, {"round": 33, "points": 7, "opponent": "BUR", "venue": "A", "date": "22 Apr", "minutes": 90}, {"round": 35, "points": 7, "opponent": "EVE", "venue": "A", "date": "4 May", "minutes": 90}, {"round": 36, "points": 11, "opponent": "BRE", "venue": "H", "date": "9 May", "minutes": 90}, {"round": 36, "points": 0, "opponent": "CRY", "venue": "H", "date": "13 May", "minutes": 0}, {"round": 37, "points": 9, "opponent": "BOU", "venue": "A", "date": "19 May", "minutes": 90}, {"round": 38, "points": 0, "opponent": "AVL", "venue": "H", "date": "24 May", "minutes": 0}]</script>
+</section>
+
+<section class="card" style="--chart-color-light: #1baf7a; --chart-color-dark: #199e70;">
+  <div class="card-head">
+    <div class="rank">#2</div>
+    <div class="who">
+      <h2>B.Fernandes</h2>
+      <p class="meta">Man Utd &middot; MID</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="stat-value">235</span><span class="stat-label">season points</span></div>
+      <div class="stat"><span class="stat-value">35</span><span class="stat-label">games played</span></div>
+      <div class="stat"><span class="stat-value">6.7</span><span class="stat-label">points / game</span></div>
+    </div>
+  </div>
+  <div class="chart-wrap">
+    <svg class="chart-svg" data-chart="p449" viewBox="0 0 900 260"
+     width="100%" height="260" role="img"
+     aria-label="Points per game time series">
+  <line x1="44" y1="232.0" x2="884" y2="232.0" class="gridline" /><text x="36" y="236.0" class="axis-label" text-anchor="end">0</text><line x1="44" y1="178.0" x2="884" y2="178.0" class="gridline" /><text x="36" y="182.0" class="axis-label" text-anchor="end">5</text><line x1="44" y1="124.0" x2="884" y2="124.0" class="gridline" /><text x="36" y="128.0" class="axis-label" text-anchor="end">10</text><line x1="44" y1="70.0" x2="884" y2="70.0" class="gridline" /><text x="36" y="74.0" class="axis-label" text-anchor="end">15</text><line x1="44" y1="16.0" x2="884" y2="16.0" class="gridline" /><text x="36" y="20.0" class="axis-label" text-anchor="end">20</text>
+  <line x1="44" y1="232.0" x2="884" y2="232.0" class="baseline" />
+  <polygon points="44.0,210.4 66.7,210.4 89.4,124.0 112.1,210.4 134.8,124.0 157.5,242.8 180.2,199.6 202.9,145.6 225.6,188.8 248.3,178.0 271.0,178.0 293.7,210.4 316.4,113.2 339.1,188.8 361.8,37.6 384.5,91.6 407.2,221.2 429.9,232.0 452.6,232.0 475.4,232.0 498.1,156.4 520.8,124.0 543.5,178.0 566.2,124.0 588.9,124.0 611.6,210.4 634.3,210.4 657.0,91.6 679.7,145.6 702.4,124.0 725.1,91.6 747.8,188.8 770.5,167.2 793.2,178.0 815.9,178.0 838.6,199.6 861.3,134.8 884.0,80.8 884.0,232.0 44.0,232.0" fill="var(--chart-color)" opacity="0.10" />
+  <polyline points="44.0,210.4 66.7,210.4 89.4,124.0 112.1,210.4 134.8,124.0 157.5,242.8 180.2,199.6 202.9,145.6 225.6,188.8 248.3,178.0 271.0,178.0 293.7,210.4 316.4,113.2 339.1,188.8 361.8,37.6 384.5,91.6 407.2,221.2 429.9,232.0 452.6,232.0 475.4,232.0 498.1,156.4 520.8,124.0 543.5,178.0 566.2,124.0 588.9,124.0 611.6,210.4 634.3,210.4 657.0,91.6 679.7,145.6 702.4,124.0 725.1,91.6 747.8,188.8 770.5,167.2 793.2,178.0 815.9,178.0 838.6,199.6 861.3,134.8 884.0,80.8" fill="none" stroke="var(--chart-color)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+  <line class="crosshair" x1="0" y1="16" x2="0" y2="232.0" />
+  <circle cx="884.0" cy="80.8" r="4" fill="var(--chart-color)" stroke="var(--surface-1)" stroke-width="2" />
+  <text x="44.0" y="250" class="axis-label" text-anchor="middle">GW1</text><text x="134.8" y="250" class="axis-label" text-anchor="middle">GW5</text><text x="225.6" y="250" class="axis-label" text-anchor="middle">GW9</text><text x="316.4" y="250" class="axis-label" text-anchor="middle">GW13</text><text x="407.2" y="250" class="axis-label" text-anchor="middle">GW17</text><text x="498.1" y="250" class="axis-label" text-anchor="middle">GW21</text><text x="588.9" y="250" class="axis-label" text-anchor="middle">GW25</text><text x="679.7" y="250" class="axis-label" text-anchor="middle">GW29</text><text x="770.5" y="250" class="axis-label" text-anchor="middle">GW33</text><text x="861.3" y="250" class="axis-label" text-anchor="middle">GW37</text><text x="884.0" y="250" class="axis-label" text-anchor="middle">GW38</text>
+  <circle cx="44.0" cy="210.4" r="12" class="hit-target" data-idx="0" fill="transparent" /><circle cx="66.7" cy="210.4" r="12" class="hit-target" data-idx="1" fill="transparent" /><circle cx="89.4" cy="124.0" r="12" class="hit-target" data-idx="2" fill="transparent" /><circle cx="112.1" cy="210.4" r="12" class="hit-target" data-idx="3" fill="transparent" /><circle cx="134.8" cy="124.0" r="12" class="hit-target" data-idx="4" fill="transparent" /><circle cx="157.5" cy="242.8" r="12" class="hit-target" data-idx="5" fill="transparent" /><circle cx="180.2" cy="199.6" r="12" class="hit-target" data-idx="6" fill="transparent" /><circle cx="202.9" cy="145.6" r="12" class="hit-target" data-idx="7" fill="transparent" /><circle cx="225.6" cy="188.8" r="12" class="hit-target" data-idx="8" fill="transparent" /><circle cx="248.3" cy="178.0" r="12" class="hit-target" data-idx="9" fill="transparent" /><circle cx="271.0" cy="178.0" r="12" class="hit-target" data-idx="10" fill="transparent" /><circle cx="293.7" cy="210.4" r="12" class="hit-target" data-idx="11" fill="transparent" /><circle cx="316.4" cy="113.2" r="12" class="hit-target" data-idx="12" fill="transparent" /><circle cx="339.1" cy="188.8" r="12" class="hit-target" data-idx="13" fill="transparent" /><circle cx="361.8" cy="37.6" r="12" class="hit-target" data-idx="14" fill="transparent" /><circle cx="384.5" cy="91.6" r="12" class="hit-target" data-idx="15" fill="transparent" /><circle cx="407.2" cy="221.2" r="12" class="hit-target" data-idx="16" fill="transparent" /><circle cx="429.9" cy="232.0" r="12" class="hit-target" data-idx="17" fill="transparent" /><circle cx="452.6" cy="232.0" r="12" class="hit-target" data-idx="18" fill="transparent" /><circle cx="475.4" cy="232.0" r="12" class="hit-target" data-idx="19" fill="transparent" /><circle cx="498.1" cy="156.4" r="12" class="hit-target" data-idx="20" fill="transparent" /><circle cx="520.8" cy="124.0" r="12" class="hit-target" data-idx="21" fill="transparent" /><circle cx="543.5" cy="178.0" r="12" class="hit-target" data-idx="22" fill="transparent" /><circle cx="566.2" cy="124.0" r="12" class="hit-target" data-idx="23" fill="transparent" /><circle cx="588.9" cy="124.0" r="12" class="hit-target" data-idx="24" fill="transparent" /><circle cx="611.6" cy="210.4" r="12" class="hit-target" data-idx="25" fill="transparent" /><circle cx="634.3" cy="210.4" r="12" class="hit-target" data-idx="26" fill="transparent" /><circle cx="657.0" cy="91.6" r="12" class="hit-target" data-idx="27" fill="transparent" /><circle cx="679.7" cy="145.6" r="12" class="hit-target" data-idx="28" fill="transparent" /><circle cx="702.4" cy="124.0" r="12" class="hit-target" data-idx="29" fill="transparent" /><circle cx="725.1" cy="91.6" r="12" class="hit-target" data-idx="30" fill="transparent" /><circle cx="747.8" cy="188.8" r="12" class="hit-target" data-idx="31" fill="transparent" /><circle cx="770.5" cy="167.2" r="12" class="hit-target" data-idx="32" fill="transparent" /><circle cx="793.2" cy="178.0" r="12" class="hit-target" data-idx="33" fill="transparent" /><circle cx="815.9" cy="178.0" r="12" class="hit-target" data-idx="34" fill="transparent" /><circle cx="838.6" cy="199.6" r="12" class="hit-target" data-idx="35" fill="transparent" /><circle cx="861.3" cy="134.8" r="12" class="hit-target" data-idx="36" fill="transparent" /><circle cx="884.0" cy="80.8" r="12" class="hit-target" data-idx="37" fill="transparent" />
+</svg>
+    <div class="tooltip" data-tooltip-for="p449"></div>
+  </div>
+  <details class="table-toggle">
+    <summary>Show game-by-game data table</summary>
+    <table>
+      <thead><tr><th>Gameweek</th><th>Fixture</th><th>Date</th><th class="num">Points</th></tr></thead>
+      <tbody><tr><td>GW1</td><td>vs ARS</td><td>17 Aug</td><td class='num'>2</td></tr><tr><td>GW2</td><td>@ FUL</td><td>24 Aug</td><td class='num'>2</td></tr><tr><td>GW3</td><td>vs BUR</td><td>30 Aug</td><td class='num'>10</td></tr><tr><td>GW4</td><td>@ MCI</td><td>14 Sep</td><td class='num'>2</td></tr><tr><td>GW5</td><td>vs CHE</td><td>20 Sep</td><td class='num'>10</td></tr><tr><td>GW6</td><td>@ BRE</td><td>27 Sep</td><td class='num'>-1</td></tr><tr><td>GW7</td><td>vs SUN</td><td>4 Oct</td><td class='num'>3</td></tr><tr><td>GW8</td><td>@ LIV</td><td>19 Oct</td><td class='num'>8</td></tr><tr><td>GW9</td><td>vs BHA</td><td>25 Oct</td><td class='num'>4</td></tr><tr><td>GW10</td><td>@ NFO</td><td>1 Nov</td><td class='num'>5</td></tr><tr><td>GW11</td><td>@ TOT</td><td>8 Nov</td><td class='num'>5</td></tr><tr><td>GW12</td><td>vs EVE</td><td>24 Nov</td><td class='num'>2</td></tr><tr><td>GW13</td><td>@ CRY</td><td>30 Nov</td><td class='num'>11</td></tr><tr><td>GW14</td><td>vs WHU</td><td>4 Dec</td><td class='num'>4</td></tr><tr><td>GW15</td><td>@ WOL</td><td>8 Dec</td><td class='num'>18</td></tr><tr><td>GW16</td><td>vs BOU</td><td>15 Dec</td><td class='num'>13</td></tr><tr><td>GW17</td><td>@ AVL</td><td>21 Dec</td><td class='num'>1</td></tr><tr><td>GW18</td><td>vs NEW</td><td>26 Dec</td><td class='num'>0</td></tr><tr><td>GW19</td><td>vs WOL</td><td>30 Dec</td><td class='num'>0</td></tr><tr><td>GW20</td><td>@ LEE</td><td>4 Jan</td><td class='num'>0</td></tr><tr><td>GW21</td><td>@ BUR</td><td>7 Jan</td><td class='num'>7</td></tr><tr><td>GW22</td><td>vs MCI</td><td>17 Jan</td><td class='num'>10</td></tr><tr><td>GW23</td><td>@ ARS</td><td>25 Jan</td><td class='num'>5</td></tr><tr><td>GW24</td><td>vs FUL</td><td>1 Feb</td><td class='num'>10</td></tr><tr><td>GW25</td><td>vs TOT</td><td>7 Feb</td><td class='num'>10</td></tr><tr><td>GW26</td><td>@ WHU</td><td>10 Feb</td><td class='num'>2</td></tr><tr><td>GW27</td><td>@ EVE</td><td>23 Feb</td><td class='num'>2</td></tr><tr><td>GW28</td><td>vs CRY</td><td>1 Mar</td><td class='num'>13</td></tr><tr><td>GW29</td><td>@ NEW</td><td>4 Mar</td><td class='num'>8</td></tr><tr><td>GW30</td><td>vs AVL</td><td>15 Mar</td><td class='num'>10</td></tr><tr><td>GW31</td><td>@ BOU</td><td>20 Mar</td><td class='num'>13</td></tr><tr><td>GW32</td><td>vs LEE</td><td>13 Apr</td><td class='num'>4</td></tr><tr><td>GW33</td><td>@ CHE</td><td>18 Apr</td><td class='num'>6</td></tr><tr><td>GW34</td><td>vs BRE</td><td>27 Apr</td><td class='num'>5</td></tr><tr><td>GW35</td><td>vs LIV</td><td>3 May</td><td class='num'>5</td></tr><tr><td>GW36</td><td>@ SUN</td><td>9 May</td><td class='num'>3</td></tr><tr><td>GW37</td><td>vs NFO</td><td>17 May</td><td class='num'>9</td></tr><tr><td>GW38</td><td>@ BHA</td><td>24 May</td><td class='num'>14</td></tr></tbody>
+    </table>
+  </details>
+  <script type="application/json" class="chart-data" data-chart="p449">[{"round": 1, "points": 2, "opponent": "ARS", "venue": "H", "date": "17 Aug", "minutes": 90}, {"round": 2, "points": 2, "opponent": "FUL", "venue": "A", "date": "24 Aug", "minutes": 90}, {"round": 3, "points": 10, "opponent": "BUR", "venue": "H", "date": "30 Aug", "minutes": 90}, {"round": 4, "points": 2, "opponent": "MCI", "venue": "A", "date": "14 Sep", "minutes": 90}, {"round": 5, "points": 10, "opponent": "CHE", "venue": "H", "date": "20 Sep", "minutes": 86}, {"round": 6, "points": -1, "opponent": "BRE", "venue": "A", "date": "27 Sep", "minutes": 90}, {"round": 7, "points": 3, "opponent": "SUN", "venue": "H", "date": "4 Oct", "minutes": 90}, {"round": 8, "points": 8, "opponent": "LIV", "venue": "A", "date": "19 Oct", "minutes": 84}, {"round": 9, "points": 4, "opponent": "BHA", "venue": "H", "date": "25 Oct", "minutes": 90}, {"round": 10, "points": 5, "opponent": "NFO", "venue": "A", "date": "1 Nov", "minutes": 90}, {"round": 11, "points": 5, "opponent": "TOT", "venue": "A", "date": "8 Nov", "minutes": 90}, {"round": 12, "points": 2, "opponent": "EVE", "venue": "H", "date": "24 Nov", "minutes": 90}, {"round": 13, "points": 11, "opponent": "CRY", "venue": "A", "date": "30 Nov", "minutes": 90}, {"round": 14, "points": 4, "opponent": "WHU", "venue": "H", "date": "4 Dec", "minutes": 90}, {"round": 15, "points": 18, "opponent": "WOL", "venue": "A", "date": "8 Dec", "minutes": 90}, {"round": 16, "points": 13, "opponent": "BOU", "venue": "H", "date": "15 Dec", "minutes": 90}, {"round": 17, "points": 1, "opponent": "AVL", "venue": "A", "date": "21 Dec", "minutes": 45}, {"round": 18, "points": 0, "opponent": "NEW", "venue": "H", "date": "26 Dec", "minutes": 0}, {"round": 19, "points": 0, "opponent": "WOL", "venue": "H", "date": "30 Dec", "minutes": 0}, {"round": 20, "points": 0, "opponent": "LEE", "venue": "A", "date": "4 Jan", "minutes": 0}, {"round": 21, "points": 7, "opponent": "BUR", "venue": "A", "date": "7 Jan", "minutes": 60}, {"round": 22, "points": 10, "opponent": "MCI", "venue": "H", "date": "17 Jan", "minutes": 90}, {"round": 23, "points": 5, "opponent": "ARS", "venue": "A", "date": "25 Jan", "minutes": 90}, {"round": 24, "points": 10, "opponent": "FUL", "venue": "H", "date": "1 Feb", "minutes": 90}, {"round": 25, "points": 10, "opponent": "TOT", "venue": "H", "date": "7 Feb", "minutes": 90}, {"round": 26, "points": 2, "opponent": "WHU", "venue": "A", "date": "10 Feb", "minutes": 90}, {"round": 27, "points": 2, "opponent": "EVE", "venue": "A", "date": "23 Feb", "minutes": 90}, {"round": 28, "points": 13, "opponent": "CRY", "venue": "H", "date": "1 Mar", "minutes": 90}, {"round": 29, "points": 8, "opponent": "NEW", "venue": "A", "date": "4 Mar", "minutes": 90}, {"round": 30, "points": 10, "opponent": "AVL", "venue": "H", "date": "15 Mar", "minutes": 90}, {"round": 31, "points": 13, "opponent": "BOU", "venue": "A", "date": "20 Mar", "minutes": 90}, {"round": 32, "points": 4, "opponent": "LEE", "venue": "H", "date": "13 Apr", "minutes": 90}, {"round": 33, "points": 6, "opponent": "CHE", "venue": "A", "date": "18 Apr", "minutes": 90}, {"round": 34, "points": 5, "opponent": "BRE", "venue": "H", "date": "27 Apr", "minutes": 90}, {"round": 35, "points": 5, "opponent": "LIV", "venue": "H", "date": "3 May", "minutes": 90}, {"round": 36, "points": 3, "opponent": "SUN", "venue": "A", "date": "9 May", "minutes": 90}, {"round": 37, "points": 9, "opponent": "NFO", "venue": "H", "date": "17 May", "minutes": 90}, {"round": 38, "points": 14, "opponent": "BHA", "venue": "A", "date": "24 May", "minutes": 90}]</script>
+</section>
+
+  <footer>Source: Fantasy Premier League API (bootstrap-static, element-summary). Generated by generate_fpl_top_scorers.py.</footer>
+</div>
+<script>
+
+document.querySelectorAll('.card').forEach(function (card) {
+  var svg = card.querySelector('.chart-svg');
+  var chartId = svg.getAttribute('data-chart');
+  var dataEl = card.querySelector('script[data-chart="' + chartId + '"]');
+  var data = JSON.parse(dataEl.textContent);
+  var tooltip = card.querySelector('.tooltip[data-tooltip-for="' + chartId + '"]');
+  var crosshair = svg.querySelector('.crosshair');
+  var hitTargets = Array.prototype.slice.call(svg.querySelectorAll('.hit-target'));
+
+  function showPoint(idx) {
+    var target = hitTargets[idx];
+    if (!target || !data[idx]) return;
+    var cx = parseFloat(target.getAttribute('cx'));
+    var cy = parseFloat(target.getAttribute('cy'));
+    crosshair.setAttribute('x1', cx);
+    crosshair.setAttribute('x2', cx);
+    crosshair.style.opacity = 1;
+
+    var d = data[idx];
+    tooltip.innerHTML = '';
+    var value = document.createElement('div');
+    value.className = 'tt-value';
+    value.textContent = d.points + ' pts';
+    var meta = document.createElement('div');
+    meta.className = 'tt-meta';
+    meta.textContent = 'GW' + d.round + ' \u00b7 ' + d.venue + ' ' + d.opponent + ' \u00b7 ' + d.date;
+    tooltip.appendChild(value);
+    tooltip.appendChild(meta);
+
+    var svgRect = svg.getBoundingClientRect();
+    var scaleX = svgRect.width / svg.viewBox.baseVal.width;
+    var scaleY = svgRect.height / svg.viewBox.baseVal.height;
+    tooltip.style.left = (cx * scaleX) + 'px';
+    tooltip.style.top = (cy * scaleY) + 'px';
+    tooltip.style.opacity = 1;
+  }
+
+  function hide() {
+    crosshair.style.opacity = 0;
+    tooltip.style.opacity = 0;
+  }
+
+  hitTargets.forEach(function (t, idx) {
+    t.addEventListener('pointerenter', function () { showPoint(idx); });
+    t.addEventListener('focus', function () { showPoint(idx); });
+  });
+  svg.addEventListener('pointerleave', hide);
+  card.addEventListener('focusout', function (e) {
+    if (!card.contains(e.relatedTarget)) hide();
+  });
+});
+
+</script>
+</body>
+</html>
