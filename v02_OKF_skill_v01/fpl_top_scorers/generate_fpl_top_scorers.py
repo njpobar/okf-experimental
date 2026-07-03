@@ -19,7 +19,7 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 # The only setting you should need to touch.
 # ---------------------------------------------------------------------------
-TOP_N = 2  # number of top-scoring players to pull in and chart
+TOP_N = 15  # number of top-scoring players to pull in and chart
 
 # ---------------------------------------------------------------------------
 # Fixed configuration
