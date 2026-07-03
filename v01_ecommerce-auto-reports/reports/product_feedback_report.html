@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Product Feedback Report</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --panel: #fffdf9;
+      --ink: #2f2118;
+      --muted: #756153;
+      --line: #e8ddd3;
+      --accent: #b5422c;
+      --accent-soft: #f8dfd8;
+      --good: #2a7a57;
+      --good-soft: #dff0e8;
+      --warn: #a8671b;
+      --shadow: 0 18px 38px rgba(61, 35, 23, 0.08);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(181, 66, 44, 0.10), transparent 28%),
+        linear-gradient(180deg, #fbf8f2 0%, var(--bg) 100%);
+    }
+    .wrap {
+      max-width: 1260px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+    .hero {
+      background: linear-gradient(135deg, rgba(181, 66, 44, 0.10), rgba(255,255,255,0.96));
+      border: 1px solid rgba(181, 66, 44, 0.12);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    h1, h2, h3 {
+      margin: 0;
+      font-weight: 600;
+    }
+    h1 {
+      margin-top: 12px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.04;
+    }
+    p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+    .card {
+      grid-column: span 3;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .card.wide { grid-column: span 6; }
+    .card.full { grid-column: 1 / -1; }
+    .label {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .metric {
+      font-size: 2rem;
+      line-height: 1.1;
+      margin: 10px 0 6px;
+    }
+    .subtle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .warn-pill, .good-pill {
+      display: inline-block;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.84rem;
+      margin-top: 10px;
+    }
+    .warn-pill {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+    .good-pill {
+      color: var(--good);
+      background: var(--good-soft);
+    }
+    .table-wrap {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .bars {
+      margin-top: 14px;
+    }
+    .bar-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 72px;
+      gap: 10px;
+      align-items: center;
+      margin-top: 10px;
+    }
+    .bar-label, .bar-value {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+    .bar-track {
+      height: 10px;
+      background: #efe4da;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d06d54, #b5422c);
+      border-radius: 999px;
+    }
+    .watch-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .watch-card {
+      background: #fffaf5;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px;
+    }
+    .subline {
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .mini-label {
+      display: block;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .snippet {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      margin-top: 12px;
+    }
+    .snippet-meta {
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin-bottom: 6px;
+    }
+    .note {
+      margin-top: 12px;
+      color: var(--ink);
+    }
+    ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+    li + li { margin-top: 8px; }
+    code {
+      background: #f3ebe2;
+      border-radius: 6px;
+      padding: 2px 6px;
+      font-size: 0.95em;
+    }
+    @media (max-width: 980px) {
+      .card, .card.wide { grid-column: 1 / -1; }
+      .watch-grid { grid-template-columns: 1fr; }
+      .mini-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">Feedback Risk Review</span>
+      <h1>Which products and customers skew negative, and do the reviews point to a real theme?</h1>
+      <p>
+        This report joins <code>reviews</code> with <code>products</code>, <code>categories</code>, <code>customers</code>,
+        <code>orders</code>, and <code>order_items</code>. In this dataset, the negative tier is the <strong>2-star rating</strong>,
+        because no 1-star reviews exist. Sales-normalized calculations use only completed orders with statuses
+        <code>paid</code>, <code>shipped</code>, or <code>delivered</code>.
+      </p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div class="label">Review Coverage</div>
+        <div class="metric">600</div>
+        <div class="subtle">Reviews across 223 of 240 products and 312 of 450 customers.</div>
+      </article>
+      <article class="card">
+        <div class="label">Negative Review Rate</div>
+        <div class="metric">27.3%</div>
+        <div class="subtle">164 of 600 reviews are 2-star.</div>
+      </article>
+      <article class="card">
+        <div class="label">Positive Review Rate</div>
+        <div class="metric">48.2%</div>
+        <div class="subtle">289 reviews are 4-star or 5-star.</div>
+      </article>
+      <article class="card">
+        <div class="label">Average Rating</div>
+        <div class="metric">3.43</div>
+        <div class="subtle">Review activity runs from 2024-01-02 to 2026-06-27.</div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <div class="label">Main Findings</div>
+        <ul>
+          <li><strong>Classic USB-C hub</strong> is the clearest product risk when normalized by sales volume, with <strong>33.3</strong> negative reviews per 100 completed orders.</li>
+          <li><strong>Living: Desk lamp</strong> is the harshest category pocket, with a negative review rate of <strong>57.1%</strong>.</li>
+          <li><strong>Owen Wood</strong> stands out on negative tendency, while <strong>Theo Turner</strong> is one of the strongest consistently positive reviewers.</li>
+          <li>The text does <strong>not</strong> support a shipping or customer-service issue narrative: shipping, delivery, late, delayed, refund and related operational terms never appear in the reviews.</li>
+        </ul>
+      </article>
+      <article class="card wide">
+        <div class="label">Interpretation Guardrails</div>
+        <p class="subtle">
+          The review text is templated and often generic, so rating-based outliers are much more reliable than
+          attempting to infer precise complaint causes from wording. This report therefore treats product risk as a
+          combination of rating distribution, review volume, and completed-sales volume, and only calls out a theme
+          when the text genuinely repeats.
+        </p>
+        <div class="warn-pill">Negative here means 2-star, not 1-star</div>
+        <div class="good-pill">No explicit shipping, delivery, or refund complaints found in text</div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card full">
+        <div class="label">Product Watchlist</div>
+        <h2 style="margin-top: 8px;">Products most worth investigating</h2>
+        <p>These are the products that rise to the top when you look at either negative share of reviews or negative volume relative to completed sales.</p>
+        <div class="watch-grid">
+          
+            <article class="watch-card">
+              <h3>Classic Daypack</h3>
+              <div class="subline">Juniper • Travel: Daypack</div>
+              <div class="mini-grid">
+                <div><span class="mini-label">Negative review rate</span><strong>100.0%</strong></div>
+                <div><span class="mini-label">Negative reviews</span><strong>3 / 3</strong></div>
+                <div><span class="mini-label">Completed orders</span><strong>10</strong></div>
+                <div><span class="mini-label">Negative per 100 orders</span><strong>30.0</strong></div>
+              </div>
+              <p class="note"><strong>Repeated theme:</strong> Category fit appeared in 2 of 3 negative reviews.</p>
+              
+            <div class="snippet">
+              <div class="snippet-meta">2025-11-04 • Nora Price</div>
+              <strong>Would buy again</strong>
+              <p>The product does the job well and the design is pleasantly simple. I like having a realistic text field for free-form experiments.</p>
+            </div>
+            
+            <div class="snippet">
+              <div class="snippet-meta">2025-10-14 • Mia Brooks</div>
+              <strong>Works well so far</strong>
+              <p>There were a few small tradeoffs, but the overall value is strong. The category fit makes joining this data especially convenient.</p>
+            </div>
+            
+            </article>
+            
+            <article class="watch-card">
+              <h3>Classic USB-C hub</h3>
+              <div class="subline">Northstar • Computing: USB-C hub</div>
+              <div class="mini-grid">
+                <div><span class="mini-label">Negative review rate</span><strong>100.0%</strong></div>
+                <div><span class="mini-label">Negative reviews</span><strong>3 / 3</strong></div>
+                <div><span class="mini-label">Completed orders</span><strong>9</strong></div>
+                <div><span class="mini-label">Negative per 100 orders</span><strong>33.3</strong></div>
+              </div>
+              <p class="note"><strong>Repeated theme:</strong> Category fit appeared in 2 of 3 negative reviews.</p>
+              
+            <div class="snippet">
+              <div class="snippet-meta">2025-05-25 • Luca Diaz</div>
+              <strong>Would buy again</strong>
+              <p>There were a few small tradeoffs, but the overall value is strong. The category fit makes joining this data especially convenient.</p>
+            </div>
+            
+            <div class="snippet">
+              <div class="snippet-meta">2024-10-13 • Liam Brooks</div>
+              <strong>Better than expected</strong>
+              <p>It fits neatly into my routine and the setup was straightforward. I like having a realistic text field for free-form experiments.</p>
+            </div>
+            
+            </article>
+            
+            <article class="watch-card">
+              <h3>Classic Water bottle</h3>
+              <div class="subline">Atlas • Travel: Water bottle</div>
+              <div class="mini-grid">
+                <div><span class="mini-label">Negative review rate</span><strong>100.0%</strong></div>
+                <div><span class="mini-label">Negative reviews</span><strong>3 / 3</strong></div>
+                <div><span class="mini-label">Completed orders</span><strong>7</strong></div>
+                <div><span class="mini-label">Negative per 100 orders</span><strong>42.9</strong></div>
+              </div>
+              
+              
+            <div class="snippet">
+              <div class="snippet-meta">2026-01-26 • Aria Kim</div>
+              <strong>Solid everyday choice</strong>
+              <p>There were a few small tradeoffs, but the overall value is strong. It gives the database a more natural shape for joins and filters.</p>
+            </div>
+            
+            <div class="snippet">
+              <div class="snippet-meta">2025-11-28 • Maya Garcia</div>
+              <strong>Works well so far</strong>
+              <p>I have been using it for a couple of weeks and it has held up nicely. I like having a realistic text field for free-form experiments.</p>
+            </div>
+            
+            </article>
+            
+            <article class="watch-card">
+              <h3>Premium Desk lamp</h3>
+              <div class="subline">Juniper • Living: Desk lamp</div>
+              <div class="mini-grid">
+                <div><span class="mini-label">Negative review rate</span><strong>75.0%</strong></div>
+                <div><span class="mini-label">Negative reviews</span><strong>3 / 4</strong></div>
+                <div><span class="mini-label">Completed orders</span><strong>7</strong></div>
+                <div><span class="mini-label">Negative per 100 orders</span><strong>42.9</strong></div>
+              </div>
+              <p class="note"><strong>Repeated theme:</strong> Held up nicely appeared in 2 of 3 negative reviews.</p>
+              
+            <div class="snippet">
+              <div class="snippet-meta">2025-04-29 • Luca Brooks</div>
+              <strong>Works well so far</strong>
+              <p>I have been using it for a couple of weeks and it has held up nicely. It gives the database a more natural shape for joins and filters.</p>
+            </div>
+            
+            <div class="snippet">
+              <div class="snippet-meta">2024-09-06 • Kai Bell</div>
+              <strong>Better than expected</strong>
+              <p>It fits neatly into my routine and the setup was straightforward. I like having a realistic text field for free-form experiments.</p>
+            </div>
+            
+            </article>
+            
+            <article class="watch-card">
+              <h3>Modern Water bottle</h3>
+              <div class="subline">Harbor • Travel: Water bottle</div>
+              <div class="mini-grid">
+                <div><span class="mini-label">Negative review rate</span><strong>66.7%</strong></div>
+                <div><span class="mini-label">Negative reviews</span><strong>2 / 3</strong></div>
+                <div><span class="mini-label">Completed orders</span><strong>14</strong></div>
+                <div><span class="mini-label">Negative per 100 orders</span><strong>14.3</strong></div>
+              </div>
+              
+              
+            <div class="snippet">
+              <div class="snippet-meta">2026-01-28 • Ethan Nguyen</div>
+              <strong>Solid everyday choice</strong>
+              <p>The build feels sturdy and the finish is better than I expected. It gives the database a more natural shape for joins and filters.</p>
+            </div>
+            
+            <div class="snippet">
+              <div class="snippet-meta">2024-03-07 • Ava Sullivan</div>
+              <strong>Would buy again</strong>
+              <p>There were a few small tradeoffs, but the overall value is strong. The category fit makes joining this data especially convenient.</p>
+            </div>
+            
+            </article>
+            
+            <article class="watch-card">
+              <h3>Everyday Portable charger</h3>
+              <div class="subline">Cinder • Travel: Portable charger</div>
+              <div class="mini-grid">
+                <div><span class="mini-label">Negative review rate</span><strong>50.0%</strong></div>
+                <div><span class="mini-label">Negative reviews</span><strong>3 / 6</strong></div>
+                <div><span class="mini-label">Completed orders</span><strong>12</strong></div>
+                <div><span class="mini-label">Negative per 100 orders</span><strong>25.0</strong></div>
+              </div>
+              <p class="note"><strong>Repeated theme:</strong> Small tradeoffs appeared in 2 of 3 negative reviews.</p>
+              
+            <div class="snippet">
+              <div class="snippet-meta">2025-10-03 • Noah Carter</div>
+              <strong>Better than expected</strong>
+              <p>There were a few small tradeoffs, but the overall value is strong. I like having a realistic text field for free-form experiments.</p>
+            </div>
+            
+            <div class="snippet">
+              <div class="snippet-meta">2025-02-14 • Sophie Wood</div>
+              <strong>Better than expected</strong>
+              <p>There were a few small tradeoffs, but the overall value is strong. I like having a realistic text field for free-form experiments.</p>
+            </div>
+            
+            </article>
+            
+            <article class="watch-card">
+              <h3>Premium Wireless earbuds</h3>
+              <div class="subline">Atlas • Wearables: Wireless earbuds</div>
+              <div class="mini-grid">
+                <div><span class="mini-label">Negative review rate</span><strong>100.0%</strong></div>
+                <div><span class="mini-label">Negative reviews</span><strong>2 / 2</strong></div>
+                <div><span class="mini-label">Completed orders</span><strong>8</strong></div>
+                <div><span class="mini-label">Negative per 100 orders</span><strong>25.0</strong></div>
+              </div>
+              
+              
+            <div class="snippet">
+              <div class="snippet-meta">2026-04-09 • Leo Patel</div>
+              <strong>Solid everyday choice</strong>
+              <p>There were a few small tradeoffs, but the overall value is strong. I like having a realistic text field for free-form experiments.</p>
+            </div>
+            
+            <div class="snippet">
+              <div class="snippet-meta">2026-04-05 • Noah Bell</div>
+              <strong>Nice quality for the price</strong>
+              <p>It fits neatly into my routine and the setup was straightforward. The category fit makes joining this data especially convenient.</p>
+            </div>
+            
+            </article>
+            
+            <article class="watch-card">
+              <h3>Classic Mechanical keyboard</h3>
+              <div class="subline">Juniper • Computing: Mechanical keyboard</div>
+              <div class="mini-grid">
+                <div><span class="mini-label">Negative review rate</span><strong>33.3%</strong></div>
+                <div><span class="mini-label">Negative reviews</span><strong>2 / 6</strong></div>
+                <div><span class="mini-label">Completed orders</span><strong>9</strong></div>
+                <div><span class="mini-label">Negative per 100 orders</span><strong>22.2</strong></div>
+              </div>
+              
+              
+            <div class="snippet">
+              <div class="snippet-meta">2024-11-11 • Finn Lopez</div>
+              <strong>Exactly what I needed</strong>
+              <p>It fits neatly into my routine and the setup was straightforward. It gives the database a more natural shape for joins and filters.</p>
+            </div>
+            
+            <div class="snippet">
+              <div class="snippet-meta">2024-06-29 • Mia Morgan</div>
+              <strong>Better than expected</strong>
+              <p>The build feels sturdy and the finish is better than I expected. I like having a realistic text field for free-form experiments.</p>
+            </div>
+            
+            </article>
+            
+        </div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <div class="label">Highest Negative Share Among Reviewed Products</div>
+        <p class="subtle">Filtered to products with at least 3 reviews so one-off ratings do not dominate the ranking.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Reviews</th>
+                <th>2-Star</th>
+                <th>Negative Rate</th>
+                <th>Avg Rating</th>
+                <th>Completed Orders</th>
+              </tr>
+            </thead>
+            <tbody><tr><td>Classic Daypack</td><td>Juniper</td><td>Travel: Daypack</td><td>3</td><td>3</td><td>100.0%</td><td>2.0</td><td>10</td></tr><tr><td>Classic USB-C hub</td><td>Northstar</td><td>Computing: USB-C hub</td><td>3</td><td>3</td><td>100.0%</td><td>2.0</td><td>9</td></tr><tr><td>Classic Water bottle</td><td>Atlas</td><td>Travel: Water bottle</td><td>3</td><td>3</td><td>100.0%</td><td>2.0</td><td>7</td></tr><tr><td>Premium Desk lamp</td><td>Juniper</td><td>Living: Desk lamp</td><td>4</td><td>3</td><td>75.0%</td><td>2.5</td><td>7</td></tr><tr><td>Modern Water bottle</td><td>Harbor</td><td>Travel: Water bottle</td><td>3</td><td>2</td><td>66.7%</td><td>3.0</td><td>14</td></tr><tr><td>Everyday Yoga mat</td><td>Fieldwork</td><td>Fitness: Yoga mat</td><td>3</td><td>2</td><td>66.7%</td><td>2.67</td><td>13</td></tr><tr><td>Modern Fitness tracker</td><td>Fieldwork</td><td>Wearables: Fitness tracker</td><td>3</td><td>2</td><td>66.7%</td><td>2.33</td><td>11</td></tr><tr><td>Modern Fitness tracker</td><td>Mosaic</td><td>Wearables: Fitness tracker</td><td>3</td><td>2</td><td>66.7%</td><td>3.0</td><td>10</td></tr><tr><td>Modern Storage basket</td><td>Northstar</td><td>Living: Storage basket</td><td>3</td><td>2</td><td>66.7%</td><td>2.67</td><td>10</td></tr><tr><td>Premium Throw blanket</td><td>Juniper</td><td>Living: Throw blanket</td><td>3</td><td>2</td><td>66.7%</td><td>2.33</td><td>9</td></tr><tr><td>Classic Air fryer</td><td>Cinder</td><td>Kitchen: Air fryer</td><td>3</td><td>2</td><td>66.7%</td><td>2.67</td><td>7</td></tr><tr><td>Compact Laptop sleeve</td><td>Northstar</td><td>Computing: Laptop sleeve</td><td>3</td><td>2</td><td>66.7%</td><td>3.0</td><td>6</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+      <article class="card wide">
+        <div class="label">Highest Negative Load Relative to Sales</div>
+        <p class="subtle">Filtered to products with at least 8 completed orders and at least 2 negative reviews.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Completed Orders</th>
+                <th>Units</th>
+                <th>2-Star</th>
+                <th>Reviews</th>
+                <th>2-Star per 100 Orders</th>
+              </tr>
+            </thead>
+            <tbody><tr><td>Classic USB-C hub</td><td>Northstar</td><td>Computing: USB-C hub</td><td>9</td><td>22</td><td>3</td><td>3</td><td>33.3</td></tr><tr><td>Classic Daypack</td><td>Juniper</td><td>Travel: Daypack</td><td>10</td><td>26</td><td>3</td><td>3</td><td>30.0</td></tr><tr><td>Everyday Portable charger</td><td>Cinder</td><td>Travel: Portable charger</td><td>12</td><td>23</td><td>3</td><td>6</td><td>25.0</td></tr><tr><td>Premium Wireless earbuds</td><td>Atlas</td><td>Wearables: Wireless earbuds</td><td>8</td><td>17</td><td>2</td><td>2</td><td>25.0</td></tr><tr><td>Classic Mechanical keyboard</td><td>Juniper</td><td>Computing: Mechanical keyboard</td><td>9</td><td>19</td><td>2</td><td>6</td><td>22.2</td></tr><tr><td>Modern Mechanical keyboard</td><td>Northstar</td><td>Computing: Mechanical keyboard</td><td>9</td><td>15</td><td>2</td><td>5</td><td>22.2</td></tr><tr><td>Modern Daypack</td><td>Atlas</td><td>Travel: Daypack</td><td>9</td><td>18</td><td>2</td><td>4</td><td>22.2</td></tr><tr><td>Premium Throw blanket</td><td>Juniper</td><td>Living: Throw blanket</td><td>9</td><td>19</td><td>2</td><td>3</td><td>22.2</td></tr><tr><td>Everyday Storage basket</td><td>Atlas</td><td>Living: Storage basket</td><td>9</td><td>21</td><td>2</td><td>4</td><td>22.2</td></tr><tr><td>Modern Fitness tracker</td><td>Mosaic</td><td>Wearables: Fitness tracker</td><td>10</td><td>23</td><td>2</td><td>3</td><td>20.0</td></tr><tr><td>Modern Storage basket</td><td>Northstar</td><td>Living: Storage basket</td><td>10</td><td>23</td><td>2</td><td>3</td><td>20.0</td></tr><tr><td>Modern Fitness tracker</td><td>Fieldwork</td><td>Wearables: Fitness tracker</td><td>11</td><td>23</td><td>2</td><td>3</td><td>18.2</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <div class="label">Category-Level Hotspots</div>
+        <p class="subtle">Categories with at least 15 reviews, ranked by 2-star share.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Department</th>
+                <th>Category</th>
+                <th>Reviews</th>
+                <th>2-Star</th>
+                <th>Negative Rate</th>
+                <th>Avg Rating</th>
+              </tr>
+            </thead>
+            <tbody><tr><td>Home</td><td>Living: Desk lamp</td><td>21</td><td>12</td><td>57.1%</td><td>2.95</td></tr><tr><td>Home</td><td>Living: Throw blanket</td><td>23</td><td>10</td><td>43.5%</td><td>3.09</td></tr><tr><td>Home</td><td>Kitchen: Blender</td><td>29</td><td>11</td><td>37.9%</td><td>3.21</td></tr><tr><td>Outdoors</td><td>Travel: Portable charger</td><td>22</td><td>8</td><td>36.4%</td><td>3.36</td></tr><tr><td>Outdoors</td><td>Fitness: Yoga mat</td><td>27</td><td>9</td><td>33.3%</td><td>3.3</td></tr><tr><td>Outdoors</td><td>Travel: Daypack</td><td>33</td><td>10</td><td>30.3%</td><td>3.55</td></tr><tr><td>Electronics</td><td>Computing: Laptop sleeve</td><td>39</td><td>11</td><td>28.2%</td><td>3.49</td></tr><tr><td>Outdoors</td><td>Travel: Water bottle</td><td>40</td><td>11</td><td>27.5%</td><td>3.4</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+      <article class="card wide">
+        <div class="label">Who Trends More Negative?</div>
+        <p class="subtle">Negative-rate bars normalize for review volume, so these show rate rather than raw count.</p>
+        <div class="bars">
+          <h3 style="font-size:1rem; margin-top: 0;">By Segment</h3>
+          <div class="bar-row"><div class="bar-label">consumer</div><div class="bar-track"><div class="bar-fill" style="width: 100.0%"></div></div><div class="bar-value">33.3%</div></div><div class="bar-row"><div class="bar-label">vip</div><div class="bar-track"><div class="bar-fill" style="width: 90.7%"></div></div><div class="bar-value">30.2%</div></div><div class="bar-row"><div class="bar-label">student</div><div class="bar-track"><div class="bar-fill" style="width: 67.6%"></div></div><div class="bar-value">22.5%</div></div><div class="bar-row"><div class="bar-label">b2b</div><div class="bar-track"><div class="bar-fill" style="width: 67.6%"></div></div><div class="bar-value">22.5%</div></div>
+        </div>
+        <div class="bars">
+          <h3 style="font-size:1rem;">By State</h3>
+          <div class="bar-row"><div class="bar-label">SA</div><div class="bar-track"><div class="bar-fill" style="width: 100.0%"></div></div><div class="bar-value">35.1%</div></div><div class="bar-row"><div class="bar-label">WA</div><div class="bar-track"><div class="bar-fill" style="width: 85.1%"></div></div><div class="bar-value">29.9%</div></div><div class="bar-row"><div class="bar-label">QLD</div><div class="bar-track"><div class="bar-fill" style="width: 84.8%"></div></div><div class="bar-value">29.7%</div></div><div class="bar-row"><div class="bar-label">ACT</div><div class="bar-track"><div class="bar-fill" style="width: 78.5%"></div></div><div class="bar-value">27.5%</div></div><div class="bar-row"><div class="bar-label">NSW</div><div class="bar-track"><div class="bar-fill" style="width: 68.5%"></div></div><div class="bar-value">24.1%</div></div><div class="bar-row"><div class="bar-label">VIC</div><div class="bar-track"><div class="bar-fill" style="width: 59.8%"></div></div><div class="bar-value">21.0%</div></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <div class="label">Customers Who Tend Negative</div>
+        <p class="subtle">Customers need at least 2 reviews to appear here.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Segment</th>
+                <th>State</th>
+                <th>Reviews</th>
+                <th>2-Star</th>
+                <th>Negative Rate</th>
+                <th>Avg Rating</th>
+              </tr>
+            </thead>
+            <tbody><tr><td>Ava Patel</td><td>b2b</td><td>QLD</td><td>3</td><td>3</td><td>100.0%</td><td>2.0</td></tr><tr><td>Sophie Wood</td><td>consumer</td><td>QLD</td><td>2</td><td>2</td><td>100.0%</td><td>2.0</td></tr><tr><td>Ethan Carter</td><td>consumer</td><td>NSW</td><td>2</td><td>2</td><td>100.0%</td><td>2.0</td></tr><tr><td>Nora Wood</td><td>consumer</td><td>VIC</td><td>2</td><td>2</td><td>100.0%</td><td>2.0</td></tr><tr><td>Ivy Turner</td><td>b2b</td><td>ACT</td><td>2</td><td>2</td><td>100.0%</td><td>2.0</td></tr><tr><td>Aria Reed</td><td>vip</td><td>QLD</td><td>2</td><td>2</td><td>100.0%</td><td>2.0</td></tr><tr><td>Owen Wood</td><td>student</td><td>SA</td><td>5</td><td>4</td><td>80.0%</td><td>2.4</td></tr><tr><td>Noah Sullivan</td><td>consumer</td><td>WA</td><td>4</td><td>3</td><td>75.0%</td><td>2.75</td></tr><tr><td>Ruby Lopez</td><td>vip</td><td>WA</td><td>3</td><td>2</td><td>66.7%</td><td>2.33</td></tr><tr><td>Owen Diaz</td><td>vip</td><td>QLD</td><td>3</td><td>2</td><td>66.7%</td><td>2.33</td></tr><tr><td>Theo Wood</td><td>vip</td><td>QLD</td><td>3</td><td>2</td><td>66.7%</td><td>2.33</td></tr><tr><td>Theo Reed</td><td>student</td><td>NSW</td><td>3</td><td>2</td><td>66.7%</td><td>2.67</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+      <article class="card wide">
+        <div class="label">Customers Who Tend Positive</div>
+        <p class="subtle">Customers need at least 3 reviews to appear here.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Customer</th>
+                <th>Segment</th>
+                <th>State</th>
+                <th>Reviews</th>
+                <th>4-5 Star</th>
+                <th>Positive Rate</th>
+                <th>Avg Rating</th>
+              </tr>
+            </thead>
+            <tbody><tr><td>Theo Turner</td><td>student</td><td>NSW</td><td>3</td><td>3</td><td>100.0%</td><td>4.67</td></tr><tr><td>Liam Diaz</td><td>student</td><td>ACT</td><td>3</td><td>3</td><td>100.0%</td><td>4.67</td></tr><tr><td>Nora Reed</td><td>student</td><td>NSW</td><td>3</td><td>3</td><td>100.0%</td><td>4.67</td></tr><tr><td>Ethan Reed</td><td>vip</td><td>NSW</td><td>3</td><td>3</td><td>100.0%</td><td>4.67</td></tr><tr><td>Ethan Garcia</td><td>student</td><td>NSW</td><td>3</td><td>3</td><td>100.0%</td><td>4.33</td></tr><tr><td>Theo Nguyen</td><td>student</td><td>SA</td><td>3</td><td>3</td><td>100.0%</td><td>4.33</td></tr><tr><td>Ava Cooper</td><td>b2b</td><td>ACT</td><td>3</td><td>3</td><td>100.0%</td><td>4.33</td></tr><tr><td>Finn Bell</td><td>student</td><td>VIC</td><td>3</td><td>3</td><td>100.0%</td><td>4.33</td></tr><tr><td>Leo Patel</td><td>student</td><td>NSW</td><td>5</td><td>4</td><td>80.0%</td><td>4.2</td></tr><tr><td>Ethan Bell</td><td>b2b</td><td>ACT</td><td>4</td><td>3</td><td>75.0%</td><td>4.0</td></tr><tr><td>Noah Cooper</td><td>b2b</td><td>VIC</td><td>4</td><td>3</td><td>75.0%</td><td>3.75</td></tr><tr><td>Aria Kim</td><td>vip</td><td>NSW</td><td>4</td><td>3</td><td>75.0%</td><td>3.75</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <div class="label">Text Theme Check</div>
+        <ul>
+          <li>Operational complaint terms such as <code>shipping</code>, <code>delivery</code>, <code>late</code>, <code>refund</code>, and <code>support</code> appear <strong>zero times</strong> in the review text.</li>
+          <li>The highest-overindex phrases inside 2-star reviews are only modestly above the overall negative baseline of <strong>27.3%</strong>, which is not strong enough to claim a distinct cross-product complaint theme.</li>
+          <li>In practice, the dataset supports a reliable answer on <strong>which products and customers skew negative</strong>, but not a strong answer on <strong>why</strong> from the text alone.</li>
+        </ul>
+      </article>
+      <article class="card wide">
+        <div class="label">Most Common Review Phrases in 2-Star Reviews</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Phrase Bucket</th>
+                <th>Reviews Using Phrase</th>
+                <th>2-Star Reviews</th>
+                <th>2-Star Rate</th>
+                <th>Uplift vs Baseline</th>
+              </tr>
+            </thead>
+            <tbody><tr><td>Category fit</td><td>190</td><td>58</td><td>30.5%</td><td>+3.2 pp</td></tr><tr><td>Build quality</td><td>112</td><td>34</td><td>30.4%</td><td>+3.0 pp</td></tr><tr><td>Setup</td><td>136</td><td>41</td><td>30.1%</td><td>+2.8 pp</td></tr><tr><td>Realistic text field</td><td>207</td><td>55</td><td>26.6%</td><td>-0.8 pp</td></tr><tr><td>Held up nicely</td><td>120</td><td>31</td><td>25.8%</td><td>-1.5 pp</td></tr><tr><td>Simple design</td><td>126</td><td>32</td><td>25.4%</td><td>-1.9 pp</td></tr></tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

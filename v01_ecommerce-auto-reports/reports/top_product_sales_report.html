@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Top Product Sales Report</title>
+  <style>
+    :root {
+      --bg: #f3f5ef;
+      --panel: #ffffff;
+      --panel-soft: #f8fbfa;
+      --ink: #17312b;
+      --muted: #5d726b;
+      --accent: #0f766e;
+      --accent-soft: #d8efe9;
+      --line: #dbe4df;
+      --shadow: 0 18px 40px rgba(21, 53, 45, 0.08);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(circle at top left, rgba(15, 118, 110, 0.10), transparent 30%),
+        linear-gradient(180deg, #f5f7f2 0%, var(--bg) 100%);
+      color: var(--ink);
+    }
+    .wrap {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 40px 20px 56px;
+    }
+    .hero {
+      background: linear-gradient(135deg, rgba(15, 118, 110, 0.12), rgba(255, 255, 255, 0.96));
+      border: 1px solid rgba(15, 118, 110, 0.12);
+      border-radius: 28px;
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+    .eyebrow {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3, h4 {
+      margin: 0;
+      font-weight: 600;
+    }
+    h1 {
+      margin-top: 14px;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.05;
+    }
+    p {
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 22px;
+    }
+    .card {
+      grid-column: span 3;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .card.wide {
+      grid-column: span 6;
+    }
+    .card.full {
+      grid-column: 1 / -1;
+    }
+    .metric {
+      font-size: 2rem;
+      line-height: 1.1;
+      margin: 10px 0 6px;
+    }
+    .label {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .subtle {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .chart-shell {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      color: var(--muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .table-wrap {
+      overflow-x: auto;
+    }
+    .review-card {
+      background: var(--panel-soft);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+      margin-top: 12px;
+    }
+    .review-meta {
+      color: var(--muted);
+      font-size: 0.86rem;
+      margin-bottom: 6px;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    ul {
+      margin: 14px 0 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+    li + li {
+      margin-top: 8px;
+    }
+    code {
+      background: #edf4f1;
+      border-radius: 6px;
+      padding: 2px 6px;
+      font-size: 0.95em;
+    }
+    @media (max-width: 980px) {
+      .card, .card.wide {
+        grid-column: 1 / -1;
+      }
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="hero">
+      <span class="eyebrow">E-commerce Sales Review</span>
+      <h1>Monthly winners plus a focused look at the overall top-selling product</h1>
+      <p>
+        This report uses the SQLite data documented in <code>tables/</code> and joins
+        <code>orders</code>, <code>order_items</code>, <code>products</code>, <code>categories</code>,
+        <code>reviews</code>, and <code>customers</code>. To keep the sales signal clean, the analysis
+        includes only orders with statuses <code>paid</code>, <code>shipped</code>, or <code>delivered</code>.
+      </p>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div class="label">Data Window</div>
+        <div class="metric">2024-01 to 2026-06</div>
+        <div class="subtle">30 monthly periods across 1200 orders.</div>
+      </article>
+      <article class="card">
+        <div class="label">Completed Orders Used</div>
+        <div class="metric">993</div>
+        <div class="subtle">82.8% of all orders after excluding pending and cancelled records.</div>
+      </article>
+      <article class="card">
+        <div class="label">Overall Top Product</div>
+        <div class="metric">Premium Storage basket</div>
+        <div class="subtle">Fieldwork • $5,880.25 revenue • 43 units</div>
+      </article>
+      <article class="card">
+        <div class="label">Top Product Reviews</div>
+        <div class="metric">2</div>
+        <div class="subtle">Average rating 3.5 / 5.</div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <div class="label">What Stands Out</div>
+        <ul>
+          <li>Monthly product leadership is fragmented across the catalog. Only <strong>Everyday Desk lamp (Mosaic)</strong> won more than once (2 months).</li>
+          <li>The overall revenue leader is <strong>Premium Storage basket</strong>, even though it led only one individual month. That makes it a strong steady performer rather than a single-month spike.</li>
+          <li><strong>Premium Storage basket</strong> sold in 17 of 30 months, peaking in <strong>July 2025</strong> at <strong>$820.50</strong>.</li>
+        </ul>
+      </article>
+      <article class="card wide">
+        <div class="label">Product Snapshot</div>
+        <p class="subtle">
+          <strong>Premium Storage basket</strong> sits in <strong>Home</strong> /
+          <strong>Living: Storage basket</strong>, sold under SKU <code>SKU-00036</code>.
+          Current catalog price is $136.75, stock on hand is 352,
+          and the product tags are <code>organize, popular, online-only</code>.
+        </p>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card full">
+        <div class="label">Time Series: Premium Storage basket</div>
+        <h2 style="margin-top: 8px;">Monthly sales trend for the overall top product</h2>
+        <p>
+          Revenue is shown across the full dataset window, with zero-value months included so gaps are visible instead of hidden.
+        </p>
+        <div class="chart-shell">
+          
+    <svg viewBox="0 0 920 340" role="img" aria-label="Monthly revenue trend for the overall top product">
+      <rect x="0" y="0" width="920" height="340" rx="18" fill="#f8fbfa" />
+      <line x1="68" y1="288.00" x2="900" y2="288.00" stroke="#d9e4df" stroke-width="1" /><text x="58" y="292.00" text-anchor="end" font-size="12" fill="#4f5f5a">$0.00</text><line x1="68" y1="222.00" x2="900" y2="222.00" stroke="#d9e4df" stroke-width="1" /><text x="58" y="226.00" text-anchor="end" font-size="12" fill="#4f5f5a">$225.00</text><line x1="68" y1="156.00" x2="900" y2="156.00" stroke="#d9e4df" stroke-width="1" /><text x="58" y="160.00" text-anchor="end" font-size="12" fill="#4f5f5a">$450.00</text><line x1="68" y1="90.00" x2="900" y2="90.00" stroke="#d9e4df" stroke-width="1" /><text x="58" y="94.00" text-anchor="end" font-size="12" fill="#4f5f5a">$675.00</text><line x1="68" y1="24.00" x2="900" y2="24.00" stroke="#d9e4df" stroke-width="1" /><text x="58" y="28.00" text-anchor="end" font-size="12" fill="#4f5f5a">$900.00</text>
+      <line x1="68" y1="288" x2="900" y2="288" stroke="#8ea39d" stroke-width="1.2" />
+      <line x1="68" y1="24" x2="68" y2="288" stroke="#8ea39d" stroke-width="1.2" />
+      <path d="M 68.00 288.00 L 96.69 207.77 L 125.38 247.89 L 154.07 288.00 L 182.76 288.00 L 211.45 247.89 L 240.14 167.66 L 268.83 288.00 L 297.52 207.77 L 326.21 247.89 L 354.90 207.77 L 383.59 247.89 L 412.28 288.00 L 440.97 288.00 L 469.66 167.66 L 498.34 288.00 L 527.03 167.66 L 555.72 127.55 L 584.41 47.32 L 613.10 207.77 L 641.79 288.00 L 670.48 207.77 L 699.17 288.00 L 727.86 288.00 L 756.55 127.55 L 785.24 167.66 L 813.93 288.00 L 842.62 167.66 L 871.31 288.00 L 900.00 288.00" fill="none" stroke="#0f766e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      <circle cx="68.00" cy="288.00" r="4.5" fill="#0f766e"><title>2024-01: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="96.69" cy="207.77" r="4.5" fill="#0f766e"><title>2024-02: $273.50 revenue, 2 units, 1 orders</title></circle><circle cx="125.38" cy="247.89" r="4.5" fill="#0f766e"><title>2024-03: $136.75 revenue, 1 units, 1 orders</title></circle><circle cx="154.07" cy="288.00" r="4.5" fill="#0f766e"><title>2024-04: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="182.76" cy="288.00" r="4.5" fill="#0f766e"><title>2024-05: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="211.45" cy="247.89" r="4.5" fill="#0f766e"><title>2024-06: $136.75 revenue, 1 units, 1 orders</title></circle><circle cx="240.14" cy="167.66" r="4.5" fill="#0f766e"><title>2024-07: $410.25 revenue, 3 units, 1 orders</title></circle><circle cx="268.83" cy="288.00" r="4.5" fill="#0f766e"><title>2024-08: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="297.52" cy="207.77" r="4.5" fill="#0f766e"><title>2024-09: $273.50 revenue, 2 units, 1 orders</title></circle><circle cx="326.21" cy="247.89" r="4.5" fill="#0f766e"><title>2024-10: $136.75 revenue, 1 units, 1 orders</title></circle><circle cx="354.90" cy="207.77" r="4.5" fill="#0f766e"><title>2024-11: $273.50 revenue, 2 units, 1 orders</title></circle><circle cx="383.59" cy="247.89" r="4.5" fill="#0f766e"><title>2024-12: $136.75 revenue, 1 units, 1 orders</title></circle><circle cx="412.28" cy="288.00" r="4.5" fill="#0f766e"><title>2025-01: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="440.97" cy="288.00" r="4.5" fill="#0f766e"><title>2025-02: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="469.66" cy="167.66" r="4.5" fill="#0f766e"><title>2025-03: $410.25 revenue, 3 units, 2 orders</title></circle><circle cx="498.34" cy="288.00" r="4.5" fill="#0f766e"><title>2025-04: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="527.03" cy="167.66" r="4.5" fill="#0f766e"><title>2025-05: $410.25 revenue, 3 units, 1 orders</title></circle><circle cx="555.72" cy="127.55" r="4.5" fill="#0f766e"><title>2025-06: $547.00 revenue, 4 units, 2 orders</title></circle><circle cx="584.41" cy="47.32" r="4.5" fill="#0f766e"><title>2025-07: $820.50 revenue, 6 units, 2 orders</title></circle><circle cx="613.10" cy="207.77" r="4.5" fill="#0f766e"><title>2025-08: $273.50 revenue, 2 units, 1 orders</title></circle><circle cx="641.79" cy="288.00" r="4.5" fill="#0f766e"><title>2025-09: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="670.48" cy="207.77" r="4.5" fill="#0f766e"><title>2025-10: $273.50 revenue, 2 units, 1 orders</title></circle><circle cx="699.17" cy="288.00" r="4.5" fill="#0f766e"><title>2025-11: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="727.86" cy="288.00" r="4.5" fill="#0f766e"><title>2025-12: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="756.55" cy="127.55" r="4.5" fill="#0f766e"><title>2026-01: $547.00 revenue, 4 units, 2 orders</title></circle><circle cx="785.24" cy="167.66" r="4.5" fill="#0f766e"><title>2026-02: $410.25 revenue, 3 units, 1 orders</title></circle><circle cx="813.93" cy="288.00" r="4.5" fill="#0f766e"><title>2026-03: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="842.62" cy="167.66" r="4.5" fill="#0f766e"><title>2026-04: $410.25 revenue, 3 units, 1 orders</title></circle><circle cx="871.31" cy="288.00" r="4.5" fill="#0f766e"><title>2026-05: $0.00 revenue, 0 units, 0 orders</title></circle><circle cx="900.00" cy="288.00" r="4.5" fill="#0f766e"><title>2026-06: $0.00 revenue, 0 units, 0 orders</title></circle>
+      <text x="68.00" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Jan 2024</text><text x="125.38" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Mar 2024</text><text x="182.76" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">May 2024</text><text x="240.14" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Jul 2024</text><text x="297.52" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Sep 2024</text><text x="354.90" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Nov 2024</text><text x="412.28" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Jan 2025</text><text x="469.66" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Mar 2025</text><text x="527.03" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">May 2025</text><text x="584.41" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Jul 2025</text><text x="641.79" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Sep 2025</text><text x="699.17" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Nov 2025</text><text x="756.55" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Jan 2026</text><text x="813.93" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Mar 2026</text><text x="871.31" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">May 2026</text><text x="900.00" y="320" text-anchor="middle" font-size="11" fill="#4f5f5a">Jun 2026</text>
+    </svg>
+    
+        </div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card">
+        <div class="label">Top Product Revenue</div>
+        <div class="metric">$5,880.25</div>
+        <div class="subtle">21 completed orders contributed to this total.</div>
+      </article>
+      <article class="card">
+        <div class="label">Units Sold</div>
+        <div class="metric">43</div>
+        <div class="subtle">Average of 2.05 units per buyer.</div>
+      </article>
+      <article class="card">
+        <div class="label">Unique Buyers</div>
+        <div class="metric">21</div>
+        <div class="subtle">4.7% of the total customer base bought this product.</div>
+      </article>
+      <article class="card">
+        <div class="label">New-Customer Entry Point</div>
+        <div class="metric">9</div>
+        <div class="subtle">42.9% of buyers purchased it in their first completed order.</div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <div class="label">Customer Base for Premium Storage basket</div>
+        <h3 style="margin-top: 8px;">Who is buying it?</h3>
+        <ul>
+          <li>The product reached <strong>21</strong> unique customers and no buyer purchased it in more than one completed order, suggesting broad one-off adoption rather than repeat replenishment.</li>
+          <li><strong>student</strong> and <strong>vip</strong> customers were tied as the largest segments, each with <strong>8</strong> buyers.</li>
+          <li><strong>QLD</strong> was the leading state with <strong>6</strong> buyers, followed by <strong>NSW</strong> with <strong>4</strong>.</li>
+          <li><strong>standard</strong> was the dominant fulfillment choice, used in <strong>71.4%</strong> of completed orders containing this product.</li>
+        </ul>
+      </article>
+      <article class="card wide">
+        <div class="label">Review Signal</div>
+        <h3 style="margin-top: 8px;">How are customers rating it?</h3>
+        <ul>
+          <li>The product has <strong>2</strong> reviews with an average rating of <strong>3.5</strong> / 5.</li>
+          <li>Review activity spans from <strong>2024-04-23</strong> to <strong>2025-06-18</strong>.</li>
+          <li><strong>0</strong> of the product's buyers also left a review, a buyer-to-review conversion rate of <strong>0.0%</strong>.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <div class="label">Buyer Segment Mix</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Segment</th><th>Customers</th><th>Share of Buyers</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>student</td><td>8</td><td>38.1%</td></tr><tr><td>vip</td><td>8</td><td>38.1%</td></tr><tr><td>consumer</td><td>3</td><td>14.3%</td></tr><tr><td>b2b</td><td>2</td><td>9.5%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+      <article class="card wide">
+        <div class="label">Top Buyer States</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>State</th><th>Customers</th><th>Share of Buyers</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>QLD</td><td>6</td><td>28.6%</td></tr><tr><td>NSW</td><td>4</td><td>19.0%</td></tr><tr><td>SA</td><td>4</td><td>19.0%</td></tr><tr><td>VIC</td><td>4</td><td>19.0%</td></tr><tr><td>ACT</td><td>2</td><td>9.5%</td></tr><tr><td>WA</td><td>1</td><td>4.8%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <div class="label">Shipping Mix for Orders Containing the Top Product</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Shipping Method</th><th>Orders</th><th>Share of Product Orders</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>standard</td><td>15</td><td>71.4%</td></tr><tr><td>express</td><td>4</td><td>19.0%</td></tr><tr><td>pickup</td><td>2</td><td>9.5%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+      <article class="card wide">
+        <div class="label">Rating Distribution</div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Rating</th><th>Reviews</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>4</td><td>1</td></tr><tr><td>3</td><td>1</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card full">
+        <div class="label">Monthly Number One Sales Product</div>
+        <h2 style="margin-top: 8px;">Revenue leader by month</h2>
+        <p>The table below ranks the single top product in each month by line-item revenue among completed orders.</p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Product</th>
+                <th>Brand</th>
+                <th>Department</th>
+                <th>Category</th>
+                <th>Revenue</th>
+                <th>Units</th>
+                <th>Orders</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>2024-01</td><td>Performance Storage basket</td><td>Cinder</td><td>Home</td><td>Living: Storage basket</td><td>$1,015.50</td><td>6</td><td>2</td></tr><tr><td>2024-02</td><td>Everyday Desk lamp</td><td>Mosaic</td><td>Home</td><td>Living: Desk lamp</td><td>$858.75</td><td>5</td><td>2</td></tr><tr><td>2024-03</td><td>Modern Wireless earbuds</td><td>Northstar</td><td>Electronics</td><td>Wearables: Wireless earbuds</td><td>$787.50</td><td>7</td><td>3</td></tr><tr><td>2024-04</td><td>Everyday Running belt</td><td>Atlas</td><td>Outdoors</td><td>Fitness: Running belt</td><td>$983.25</td><td>9</td><td>3</td></tr><tr><td>2024-05</td><td>Essential Portable charger</td><td>Juniper</td><td>Outdoors</td><td>Travel: Portable charger</td><td>$584.50</td><td>7</td><td>3</td></tr><tr><td>2024-06</td><td>Premium Daypack</td><td>Mosaic</td><td>Outdoors</td><td>Travel: Daypack</td><td>$590.00</td><td>5</td><td>2</td></tr><tr><td>2024-07</td><td>Everyday Desk lamp</td><td>Mosaic</td><td>Home</td><td>Living: Desk lamp</td><td>$858.75</td><td>5</td><td>2</td></tr><tr><td>2024-08</td><td>Premium Blender</td><td>Atlas</td><td>Home</td><td>Kitchen: Blender</td><td>$756.25</td><td>5</td><td>2</td></tr><tr><td>2024-09</td><td>Premium Blender</td><td>Mosaic</td><td>Home</td><td>Kitchen: Blender</td><td>$852.00</td><td>6</td><td>2</td></tr><tr><td>2024-10</td><td>Compact Air fryer</td><td>Juniper</td><td>Home</td><td>Kitchen: Air fryer</td><td>$640.00</td><td>5</td><td>2</td></tr><tr><td>2024-11</td><td>Premium Laptop sleeve</td><td>Harbor</td><td>Electronics</td><td>Computing: Laptop sleeve</td><td>$990.00</td><td>6</td><td>2</td></tr><tr><td>2024-12</td><td>Modern Resistance bands</td><td>Pioneer</td><td>Outdoors</td><td>Fitness: Resistance bands</td><td>$872.50</td><td>5</td><td>3</td></tr><tr><td>2025-01</td><td>Classic Coffee grinder</td><td>Fieldwork</td><td>Home</td><td>Kitchen: Coffee grinder</td><td>$1,065.00</td><td>6</td><td>2</td></tr><tr><td>2025-02</td><td>Premium Smartwatch</td><td>Northstar</td><td>Electronics</td><td>Wearables: Smartwatch</td><td>$596.25</td><td>5</td><td>2</td></tr><tr><td>2025-03</td><td>Essential Resistance bands</td><td>Harbor</td><td>Outdoors</td><td>Fitness: Resistance bands</td><td>$711.00</td><td>6</td><td>2</td></tr><tr><td>2025-04</td><td>Premium Laptop sleeve</td><td>Juniper</td><td>Electronics</td><td>Computing: Laptop sleeve</td><td>$723.00</td><td>6</td><td>2</td></tr><tr><td>2025-05</td><td>Everyday Portable charger</td><td>Cinder</td><td>Outdoors</td><td>Travel: Portable charger</td><td>$1,069.50</td><td>6</td><td>3</td></tr><tr><td>2025-06</td><td>Modern Air fryer</td><td>Northstar</td><td>Home</td><td>Kitchen: Air fryer</td><td>$648.75</td><td>5</td><td>3</td></tr><tr><td>2025-07</td><td>Premium Storage basket</td><td>Fieldwork</td><td>Home</td><td>Living: Storage basket</td><td>$820.50</td><td>6</td><td>2</td></tr><tr><td>2025-08</td><td>Everyday USB-C hub</td><td>Cinder</td><td>Electronics</td><td>Computing: USB-C hub</td><td>$894.00</td><td>6</td><td>3</td></tr><tr><td>2025-09</td><td>Modern Mechanical keyboard</td><td>Fieldwork</td><td>Electronics</td><td>Computing: Mechanical keyboard</td><td>$807.00</td><td>6</td><td>2</td></tr><tr><td>2025-10</td><td>Modern Laptop sleeve</td><td>Northstar</td><td>Electronics</td><td>Computing: Laptop sleeve</td><td>$623.75</td><td>5</td><td>2</td></tr><tr><td>2025-11</td><td>Classic Running belt</td><td>Juniper</td><td>Outdoors</td><td>Fitness: Running belt</td><td>$642.00</td><td>6</td><td>3</td></tr><tr><td>2025-12</td><td>Modern Resistance bands</td><td>Mosaic</td><td>Outdoors</td><td>Fitness: Resistance bands</td><td>$922.50</td><td>6</td><td>2</td></tr><tr><td>2026-01</td><td>Modern Wireless earbuds</td><td>Pioneer</td><td>Electronics</td><td>Wearables: Wireless earbuds</td><td>$645.00</td><td>4</td><td>2</td></tr><tr><td>2026-02</td><td>Classic USB-C hub</td><td>Northstar</td><td>Electronics</td><td>Computing: USB-C hub</td><td>$1,002.75</td><td>7</td><td>3</td></tr><tr><td>2026-03</td><td>Essential Yoga mat</td><td>Mosaic</td><td>Outdoors</td><td>Fitness: Yoga mat</td><td>$773.75</td><td>5</td><td>2</td></tr><tr><td>2026-04</td><td>Everyday Storage basket</td><td>Fieldwork</td><td>Home</td><td>Living: Storage basket</td><td>$951.00</td><td>6</td><td>2</td></tr><tr><td>2026-05</td><td>Essential Mechanical keyboard</td><td>Cinder</td><td>Electronics</td><td>Computing: Mechanical keyboard</td><td>$811.25</td><td>5</td><td>2</td></tr><tr><td>2026-06</td><td>Classic Air fryer</td><td>Cinder</td><td>Home</td><td>Kitchen: Air fryer</td><td>$682.50</td><td>6</td><td>2</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="grid">
+      <article class="card wide">
+        <div class="label">Sample Reviews for Premium Storage basket</div>
+        
+        <article class="review-card">
+          <div class="review-meta">Rating 3 / 5 • 2025-06-18</div>
+          <h4>Exactly what I needed</h4>
+          <p>The product does the job well and the design is pleasantly simple. I like having a realistic text field for free-form experiments.</p>
+        </article>
+        
+        <article class="review-card">
+          <div class="review-meta">Rating 4 / 5 • 2024-04-23</div>
+          <h4>Nice quality for the price</h4>
+          <p>The product does the job well and the design is pleasantly simple. The category fit makes joining this data especially convenient.</p>
+        </article>
+        
+      </article>
+      <article class="card wide">
+        <div class="label">Method Notes</div>
+        <ul>
+          <li>Sales are measured from <code>order_items.line_total_cents</code> joined through <code>orders</code> to get the month and status.</li>
+          <li>The monthly winners table uses revenue as the primary ranking, then breaks ties with units sold, order count, and product id.</li>
+          <li>The time-series chart focuses on the <strong>overall</strong> top revenue product across the full period: <strong>Premium Storage basket</strong>.</li>
+          <li>Review counts come from the <code>reviews</code> table and customer profiling comes from joins to <code>customers</code>.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

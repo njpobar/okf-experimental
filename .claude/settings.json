@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c ' *)",
+      "Bash(curl -s \"https://fantasy.premierleague.com/api/bootstrap-static/\" -o fpl_bootstrap_live.json -w \"HTTP %{http_code}, %{size_download} bytes\\\\n\")",
+      "Bash(curl -s \"https://fantasy.premierleague.com/api/fixtures/\" -o fpl_fixtures_live.json -w \"HTTP %{http_code}, %{size_download} bytes\\\\n\")"
+    ]
+  }
+}
